@@ -1,6 +1,21 @@
 <mat-card>
     <mat-card-title>Welcome to Modlishka</mat-card-title>
     <mat-card-content>
-        This is the example module.
+      <mat-form-field>
+        <mat-label>Modlishka config</mat-label>
+        <br />
+        <textarea #config>
+          {{configData}}
+        </textarea>
+      </mat-form-field>
+      <button mat-flat-button color="accent" (click)="runModlishka();">
+        start modlishka
+      </button>
+      <button mat-flat-button color="accent" (click)="stopModlishka();">
+        stop modlishka
+      </button>
+      <br />
+      <span>The Api said: {{apiResponse}}</span>
+      <br />
     </mat-card-content>
 </mat-card>
