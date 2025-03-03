@@ -10,8 +10,19 @@ export class ModlishkaComponent implements OnInit {
     constructor(private API: ApiService) { }
 
     userInput = '';
-    apiResponse = 'Press the button above to get the version';
+    apiResponse = 'nothing...';
     configData = '';
+    modlishkaLog = '';
+    dnsData = '';
+
+    getModlishkaLogs():void {
+      this.API.request({
+        module: 'Modlishka',
+        action: 'get_log'
+      }, (response) => {
+        this.modlishkaLog = response;
+      });
+    }
 
     runModlishka():void {
       this.API.request({
@@ -31,12 +42,46 @@ export class ModlishkaComponent implements OnInit {
       });
     }
 
+    setConfig(): void {
+      this.API.request({
+        module: 'Modlishka',
+        action: 'set_config',
+        data: this.configData
+      }, (response) => {
+        this.apiResponse = response;
+      });
+    }
+
+    setDnsConfig(): void {
+      this.API.request({
+        module: 'Modlishka',
+        action: 'set_dns_config',
+        data: this.dnsData
+      }, (response) => {
+        this.apiResponse = response;
+      });
+    }
+
     ngOnInit() {
       this.API.request({
         module: 'Modlishka',
         action: 'get_config'
       }, (response) => {
-        this.configData = response.payload;
+        this.configData = response;
+        console.log('setting data to');
+        console.log(response);
+      });
+      this.API.request({
+        module: 'Modlishka',
+        action: 'get_dns_config'
+      }, (response) => {
+        this.dnsData= response;
+      });
+      this.API.request({
+        module: 'Modlishka',
+        action: 'get_log'
+      }, (response) => {
+        this.modlishkaLog = response;
       });
     }
 }
